@@ -13,3 +13,16 @@ ATankPawn::ATankPawn()
     Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
     Camera->SetupAttachment(SpringArm);
 }
+
+// Called to bind functionality to input
+void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+    PlayerInputComponent->BindAxis(TEXT("IA_Move"), this, &ATankPawn::Move);
+}
+
+void ATankPawn::Move(float Value)
+{
+    UE_LOG(LogTemp, Display, TEXT("Value: %f"), Value);
+}
