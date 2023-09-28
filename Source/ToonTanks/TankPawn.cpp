@@ -45,18 +45,12 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
         // Turning
         EnhancedInputComponent->BindAction(TurnInputAction, ETriggerEvent::Triggered, this, &ATankPawn::Turn);
 
-        //Rotate Turret
+        // Rotating Turret
         EnhancedInputComponent->BindAction(RotateTurretInputAction, ETriggerEvent::Triggered, this, &ATankPawn::RotateTurret);
 
         // Firing
         EnhancedInputComponent->BindAction(FireInputAction, ETriggerEvent::Triggered, this, &ATankPawn::Fire);
     }
-}
-
-void ATankPawn::Tick(float DeltaTime)
-{
-    Super::Tick(DeltaTime);
-
 }
 
 void ATankPawn::Move(const FInputActionValue& Value)
@@ -84,12 +78,7 @@ void ATankPawn::RotateTurret(const FInputActionValue &Value)
     const float RotateAxisValue = Value.Get<float>();
     FRotator LookAtRotation = FRotator::ZeroRotator;
 
+    // Rotating turret (Mouse X, Left & Right arrow keys)
     LookAtRotation.Yaw = RotateAxisValue * RotationRate * UGameplayStatics::GetWorldDeltaSeconds(this);
-
     GetTurretMesh()->AddWorldRotation(LookAtRotation);
-}
-
-void ATankPawn::Fire()
-{
-    UE_LOG(LogTemp, Display, TEXT("Fire"));
 }

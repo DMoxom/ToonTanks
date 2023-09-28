@@ -3,37 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BasePawn.h"
-#include "TowerPawn.generated.h"
+#include "GameFramework/Actor.h"
+#include "Projectile.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TOONTANKS_API ATowerPawn : public ABasePawn
+class TOONTANKS_API AProjectile : public AActor
 {
 	GENERATED_BODY()
-
-public:
-	ATowerPawn();
+	
+public:	
+	// Sets default values for this actor's properties
+	AProjectile();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
+public:	
+	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	class ATankPawn* Tank;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
-	float FireRange = 300.0f;
-
-	FTimerHandle FireRateTimerHandle;
-	float FireRate = 2.0f;
-
-	bool InFireRange();
-
-	void CheckFireCondition();
+	UStaticMeshComponent* ProjectileMesh;
 };

@@ -4,6 +4,7 @@
 #include "BasePawn.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Projectile.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -43,4 +44,12 @@ void ABasePawn::RotateTurretToTarget(FVector LookAtTarget, float InterpSpeed)
 		UGameplayStatics::GetWorldDeltaSeconds(this), 
 		InterpSpeed)
 	);
+}
+
+void ABasePawn::Fire()
+{
+	FVector Location = ProjectileSpawnPoint->GetComponentLocation();
+	FRotator Rotation = ProjectileSpawnPoint->GetComponentRotation();
+
+	GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Location, Rotation);
 }

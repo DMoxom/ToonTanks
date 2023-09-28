@@ -26,9 +26,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
 	class UInputMappingContext* InputMappingContext;
@@ -49,8 +46,6 @@ protected:
 	void Turn(const FInputActionValue& Value);
 
 	void RotateTurret(const FInputActionValue& Value);
-
-	void Fire();
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
