@@ -18,13 +18,18 @@ class TOONTANKS_API ATankPawn : public ABasePawn
 public:
 	ATankPawn();
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
+public:
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
 	class UInputMappingContext* InputMappingContext;
 
@@ -35,11 +40,15 @@ protected:
 	class UInputAction* TurnInputAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
+	class UInputAction* RotateTurretInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
 	class UInputAction* FireInputAction;
 
 	void Move(const FInputActionValue& Value);
-
 	void Turn(const FInputActionValue& Value);
+
+	void RotateTurret(const FInputActionValue& Value);
 
 	void Fire();
 
@@ -55,4 +64,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float TurnRate = 45.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float RotationRate = 45.0f;
+
+	APlayerController* PlayerControllerRef;
 };

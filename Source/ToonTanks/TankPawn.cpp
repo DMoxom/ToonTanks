@@ -22,9 +22,11 @@ void ATankPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-    if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+    PlayerControllerRef = Cast<APlayerController>(GetController());
+
+    if (PlayerControllerRef)
     {
-        if (UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+        if (UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerControllerRef->GetLocalPlayer()))
         {
             Subsystem->AddMappingContext(InputMappingContext, 0);
         }
@@ -43,12 +45,18 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
         // Turning
         EnhancedInputComponent->BindAction(TurnInputAction, ETriggerEvent::Triggered, this, &ATankPawn::Turn);
 
-        //Rotating
-
+        //Rotate Turret
+        EnhancedInputComponent->BindAction(RotateTurretInputAction, ETriggerEvent::Triggered, this, &ATankPawn::RotateTurret);
 
         // Firing
         EnhancedInputComponent->BindAction(FireInputAction, ETriggerEvent::Triggered, this, &ATankPawn::Fire);
     }
+}
+
+void ATankPawn::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
 }
 
 void ATankPawn::Move(const FInputActionValue& Value)
@@ -69,6 +77,16 @@ void ATankPawn::Turn(const FInputActionValue &Value)
     // Left and right turning (A, D)
     DeltaRotation.Yaw = DirectionValue * TurnRate * UGameplayStatics::GetWorldDeltaSeconds(this);
     AddActorLocalRotation(DeltaRotation, true);
+}
+
+void ATankPawn::RotateTurret(const FInputActionValue &Value)
+{
+    const float RotateAxisValue = Value.Get<float>();
+    FRotator LookAtRotation = FRotator::ZeroRotator;
+
+    LookAtRotation.Yaw = RotateAxisValue * RotationRate * UGameplayStatics::GetWorldDeltaSeconds(this);
+
+    GetTurretMesh()->AddWorldRotation(LookAtRotation);
 }
 
 void ATankPawn::Fire()
