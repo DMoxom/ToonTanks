@@ -26,6 +26,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void HandleDestruction();
+
+	APlayerController* GetTankPlayerController() const { return TankPlayerController; }
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
 	class UInputMappingContext* InputMappingContext;
@@ -63,5 +67,5 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float RotationRate = 45.0f;
 
-	APlayerController* PlayerControllerRef;
+	APlayerController* TankPlayerController;
 };

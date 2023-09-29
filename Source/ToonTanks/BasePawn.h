@@ -15,9 +15,14 @@ public:
 	// Sets default values for this pawn's properties
 	ABasePawn();
 
-protected:
-	UStaticMeshComponent* GetTurretMesh();
+	void HandleDestruction();
 
+protected:
+	UStaticMeshComponent* GetTurretMesh() const { return TurretMesh; }
+
+	/// @brief Rotates the turret mesh to LookAtTarget Vector in X axis only.
+	/// @param LookAtTarget Target of turret mesh rotation
+	/// @param InterpSpeed Interpolation value for rotation
 	void RotateTurretToTarget(FVector LookAtTarget, float InterpSpeed);
 	void Fire();
 

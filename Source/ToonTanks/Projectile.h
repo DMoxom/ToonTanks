@@ -26,4 +26,19 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	UStaticMeshComponent* ProjectileMesh;
+
+	UPROPERTY(EditAnywhere)
+	float Damage = 50.0f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
+	class UProjectileMovementComponent* ProjectileMovementComponent;
+
+	/// @brief 
+	/// @param HitComp Component that is hitting
+	/// @param OtherActor Actor that got hit
+	/// @param OtherComp Component that got hit
+	/// @param NormalImpulse Applies impulse at collision location
+	/// @param Hit Hit result
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

@@ -22,11 +22,11 @@ void ATankPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-    PlayerControllerRef = Cast<APlayerController>(GetController());
+    TankPlayerController = Cast<APlayerController>(GetController());
 
-    if (PlayerControllerRef)
+    if (TankPlayerController)
     {
-        if (UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerControllerRef->GetLocalPlayer()))
+        if (UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(TankPlayerController->GetLocalPlayer()))
         {
             Subsystem->AddMappingContext(InputMappingContext, 0);
         }
@@ -51,6 +51,13 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
         // Firing
         EnhancedInputComponent->BindAction(FireInputAction, ETriggerEvent::Triggered, this, &ATankPawn::Fire);
     }
+}
+
+void ATankPawn::HandleDestruction()
+{
+    Super::HandleDestruction();
+    SetActorHiddenInGame(true);
+    // If Tick ever gets implemented, disable here
 }
 
 void ATankPawn::Move(const FInputActionValue& Value)

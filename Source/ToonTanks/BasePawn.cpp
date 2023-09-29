@@ -25,14 +25,11 @@ ABasePawn::ABasePawn()
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
-UStaticMeshComponent* ABasePawn::GetTurretMesh()
+void ABasePawn::HandleDestruction()
 {
-    return TurretMesh;
+	// TODO: Visual/sound effects
 }
 
-/**
- * @brief Rotates the turret mesh to LookAtTarget Vector in X axis only.
- */
 void ABasePawn::RotateTurretToTarget(FVector LookAtTarget, float InterpSpeed)
 {
 	FVector ToTarget = LookAtTarget - TurretMesh->GetComponentLocation();
@@ -51,5 +48,6 @@ void ABasePawn::Fire()
 	FVector Location = ProjectileSpawnPoint->GetComponentLocation();
 	FRotator Rotation = ProjectileSpawnPoint->GetComponentRotation();
 
-	GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Location, Rotation);
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Location, Rotation);
+	Projectile->SetOwner(this);
 }

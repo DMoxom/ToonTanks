@@ -24,6 +24,8 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+	void HandleDestruction();
+
 private:
 	class ATankPawn* Tank;
 

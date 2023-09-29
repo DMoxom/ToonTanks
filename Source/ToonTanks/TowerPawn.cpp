@@ -30,6 +30,12 @@ void ATowerPawn::Tick(float DeltaTime)
     } 
 }
 
+void ATowerPawn::HandleDestruction()
+{
+    Super::HandleDestruction();
+    Destroy();
+}
+
 bool ATowerPawn::InFireRange()
 {  
     if (!Tank)
