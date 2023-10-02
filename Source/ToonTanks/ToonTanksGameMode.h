@@ -18,10 +18,20 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartGame();
+
+	UFUNCTION(BlueprintCallable)
+	float GetStartDelay() const { return StartDelay; }
+
 public:
 	void ActorDied(AActor* DeadActor);
 
 private:
 	class ATankPawn* Tank;
 	class AToonTanksPlayerController* ToonTanksPlayerController;
+
+	float StartDelay = 3.0f;
+
+	void HandleGameStart();
 };
