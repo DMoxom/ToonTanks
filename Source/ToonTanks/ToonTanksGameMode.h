@@ -23,4 +23,5 @@ public:
 
 private:
 	class ATankPawn* Tank;
+	class AToonTanksPlayerController* ToonTanksPlayerController;
 };
