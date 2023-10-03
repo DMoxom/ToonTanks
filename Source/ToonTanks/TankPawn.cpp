@@ -7,6 +7,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 ATankPawn::ATankPawn()
 {
@@ -50,6 +51,22 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
         // Firing
         EnhancedInputComponent->BindAction(FireInputAction, ETriggerEvent::Triggered, this, &ATankPawn::Fire);
+    }
+}
+
+void ATankPawn::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    if (TankPlayerController)
+    {
+        FHitResult HitResult;
+        TankPlayerController->GetHitResultUnderCursor(
+            ECollisionChannel::ECC_Visibility,
+            false,
+            HitResult
+        );
+        RotateTurretToTarget(HitResult.ImpactPoint, 20.0f);
     }
 }
 
